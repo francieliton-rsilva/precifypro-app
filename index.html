@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>PrecifyPro — Precificação para Marketplaces</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -143,8 +146,20 @@
   --green-bg: rgba(52,211,153,0.08);
   --green-border: rgba(52,211,153,0.2);
   --red: #f87171;
+  --red-bg: rgba(248,113,113,0.07);
+  --red-border: rgba(248,113,113,0.2);
+  --amber: #fbbf24;
+  --amber-bg: rgba(251,191,36,0.08);
+  --amber-border: rgba(251,191,36,0.2);
+  --blue: #6ee7b7;
+  --blue-bg: rgba(52,211,153,0.07);
+  --blue-border: rgba(52,211,153,0.18);
+  --radius: 10px;
+  --radius-sm: 7px;
+  --shadow: none;
+}
 
-/* ---- TEMA NAVY (identidade PrecifyPro) ---- */
+/* NAVY — identidade PrecifyPro */
 [data-theme="navy"] {
   --bg: #0f1623;
   --surface: #1a2336;
@@ -172,21 +187,12 @@
   --amber: #e8f03d;
   --amber-bg: rgba(232,240,61,0.08);
   --amber-border: rgba(232,240,61,0.2);
+  --blue: #e8f03d;
+  --blue-bg: rgba(232,240,61,0.08);
+  --blue-border: rgba(232,240,61,0.2);
   --shadow: 0 2px 12px rgba(0,0,0,0.3);
   --radius: 10px;
   --radius-sm: 7px;
-}
-  --red-bg: rgba(248,113,113,0.07);
-  --red-border: rgba(248,113,113,0.2);
-  --amber: #fbbf24;
-  --amber-bg: rgba(251,191,36,0.08);
-  --amber-border: rgba(251,191,36,0.2);
-  --blue: #6ee7b7;
-  --blue-bg: rgba(52,211,153,0.07);
-  --blue-border: rgba(52,211,153,0.18);
-  --radius: 10px;
-  --radius-sm: 7px;
-  --shadow: none;
 }
 
 /* ---- RESET ---- */
@@ -1074,7 +1080,7 @@ select {
   <div class="logo">
     <div class="logo-mark">P$</div>
     <div class="logo-name">Precify<span>Pro</span></div>
-    <div class="version-badge">v1.31</div>
+    <div class="version-badge">v1.32</div>
   </div>
   <div class="user-menu">
     <button class="user-btn" onclick="toggleUserMenu()" id="user-btn">
