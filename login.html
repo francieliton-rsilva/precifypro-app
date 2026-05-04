@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>PrecifyPro — Entrar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f0f4ff;
+  --surface: #ffffff;
+  --surface2: #e8eeff;
+  --border: rgba(30,58,138,0.1);
+  --border2: rgba(30,58,138,0.18);
+  --text: #1e3a8a;
+  --muted: #64748b;
+  --accent: #1e3a8a;
+  --accent2: #1d4ed8;
+  --green: #1d4ed8;
+  --green-bg: #eff6ff;
+  --green-border: #bfdbfe;
+  --red: #c0392b;
+  --red-bg: #fdf0ee;
+  --red-border: #f5c4bc;
+  --amber: #7a5000;
+  --amber-bg: #fdf5e4;
+  --amber-border: #f0d090;
+}
+
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Background grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(30,58,138,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,58,138,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.logo-mark {
+  width: 36px;
+  height: 36px;
+  background: #1e3a8a;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.logo-name {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.logo-name span { color: var(--accent2); }
+
+/* Card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 28px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 24px rgba(30,58,138,0.08);
+}
+
+/* Toggle */
+.toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 24px;
+  gap: 2px;
+}
+
+.toggle-btn {
+  height: 36px;
+  border: none;
+  border-radius: 7px;
+  background: none;
+  color: var(--muted);
+  font-family: 'Sora', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.toggle-btn.active {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Heading */
+.heading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.heading h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.heading p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Info box */
+.info-box {
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  line-height: 1.6;
+  display: flex;
+  gap: 10px;
+}
+
+.info-box.blue {
+  background: rgba(96,165,250,0.07);
+  border: 1px solid rgba(96,165,250,0.15);
+  color: #93c5fd;
+}
+
+.info-box.amber {
+  background: var(--amber-bg);
+  border: 1px solid rgba(251,191,36,0.2);
+  color: var(--amber);
+}
+
+.info-box-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+/* Form */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.input-wrap .icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.input-wrap input {
+  width: 100%;
+  height: 44px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  padding: 0 12px 0 38px;
+  outline: none;
+  transition: border-color 0.15s;
+  box-shadow: inset 0 1px 3px rgba(30,58,138,0.05);
+}
+
+.input-wrap input::placeholder { color: var(--muted); opacity: 0.6; }
+.input-wrap input:focus { border-color: var(--accent); }
+.input-wrap input.error { border-color: var(--red); }
+
+.input-wrap .toggle-pwd {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  line-height: 1;
+}
+
+/* Botão principal */
+.btn-primary {
+  width: 100%;
+  height: 48px;
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  letter-spacing: -0.01em;
+  margin-top: 4px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.btn-primary:hover { opacity: 0.88; }
+.btn-primary:active { transform: scale(0.99); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary .spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto;
+}
+
+.btn-primary.loading .btn-text { display: none; }
+.btn-primary.loading .spinner { display: block; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Link esqueci senha */
+.link-center {
+  text-align: center;
+  font-size: 13px;
+}
+
+.link-center a {
+  color: #1d4ed8;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.link-center a:hover { text-decoration: underline; }
+
+/* Dica */
+.dica {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+/* Mensagem de feedback */
+.feedback {
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  display: none;
+  line-height: 1.5;
+}
+
+.feedback.success {
+  background: var(--green-bg);
+  border: 1px solid var(--green-border);
+  color: var(--green);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.feedback.error {
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+  color: var(--red);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+/* Plano Pro — Em Breve */
+.pro-card {
+  background: var(--surface);
+  border: 1px solid rgba(30,58,138,0.15);
+  border-radius: 14px;
+  padding: 20px 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(30,58,138,0.08);
+}
+
+.pro-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #1e3a8a, #1d4ed8);
+}
+
+.pro-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.pro-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1d4ed8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pro-price {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.pro-price strong {
+  color: #1d4ed8;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.pro-features {
+  list-style: none;
+  margin-bottom: 16px;
+}
+
+.pro-features li {
+  font-size: 12px;
+  color: var(--muted);
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pro-features li::before {
+  content: '✓';
+  color: #1d4ed8;
+  font-weight: 700;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.btn-em-breve {
+  width: 100%;
+  height: 42px;
+  background: rgba(30,58,138,0.06);
+  border: 1px solid rgba(30,58,138,0.15);
+  border-radius: 8px;
+  color: #1d4ed8;
+  font-family: 'Sora', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: not-allowed;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Modo esqueci senha */
+#modo-senha { display: none; }
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .card { padding: 20px 18px; }
+  .heading h1 { font-size: 19px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- Logo -->
+  <div class="logo">
+    <div class="logo-mark">P$</div>
+    <div class="logo-name">Precify<span>Pro</span></div>
+  </div>
+
+  <!-- Feedback global -->
+  <div class="feedback" id="feedback">
+    <span class="fb-icon"></span>
+    <span class="fb-msg"></span>
+  </div>
+
+  <!-- Card principal -->
+  <div class="card">
+
+    <!-- Toggle login/cadastro -->
+    <div class="toggle" id="toggle-wrap">
+      <button class="toggle-btn active" id="btn-login" onclick="setModo('login')">
+        🔐 Já tenho conta
+      </button>
+      <button class="toggle-btn" id="btn-cadastro" onclick="setModo('cadastro')">
+        👤 Primeiro acesso
+      </button>
+    </div>
+
+    <!-- ===== MODO LOGIN ===== -->
+    <div id="modo-login">
+      <div class="heading">
+        <h1>Bem-vindo de volta!</h1>
+        <p>Entre com o email e senha que você cadastrou</p>
+      </div>
+
+      <div class="info-box blue">
+        <span class="info-box-icon">💬</span>
+        <div>
+          <strong>Esqueceu a senha?</strong> Clique em "Esqueci minha senha" abaixo do botão Entrar.<br>
+          <strong>Nunca cadastrou?</strong> Clique em "Primeiro acesso" acima.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <div class="input-wrap">
+          <span class="icon">✉</span>
+          <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Senha</label>
+        <div class="input-wrap">
+          <span class="icon">🔒</span>
+          <input type="password" id="login-senha" placeholder="••••••••" autocomplete="current-password">
+          <button class="toggle-pwd" onclick="toggleSenha('login-senha', this)">👁</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-entrar" onclick="fazerLogin()">
+        <span class="btn-text">Entrar</span>
+        <div class="spinner"></div>
+      </button>
+
+      <div class="link-center">
+        <a onclick="setModo('senha')">Esqueci minha senha</a>
+      </div>
+
+      <div class="dica" style="margin-top:12px;">
+        <strong>Dica:</strong> Se esqueceu a senha, use o botão acima. Nunca cadastrou? Use o botão "Primeiro acesso" no topo.
+      </div>
+    </div>
+
+    <!-- ===== MODO CADASTRO ===== -->
+    <div id="modo-cadastro" style="display:none;">
+      <div class="heading">
+        <h1>Criar sua conta</h1>
+        <p>Acesso gratuito — sem cartão de crédito</p>
+      </div>
+
+      <div class="info-box amber">
+        <span class="info-box-icon">⭐</span>
+        <div>
+          <strong>Já tem conta?</strong> Clique em "Já tenho conta" acima.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Nome completo</label>
+        <div class="input-wrap">
+          <span class="icon">👤</span>
+          <input type="text" id="cadastro-nome" placeholder="Seu nome" autocomplete="name">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <div class="input-wrap">
+          <span class="icon">✉</span>
+          <input type="email" id="cadastro-email" placeholder="seu@email.com" autocomplete="email">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Senha</label>
+        <div class="input-wrap">
+          <span class="icon">🔒</span>
+          <input type="password" id="cadastro-senha" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+          <button class="toggle-pwd" onclick="toggleSenha('cadastro-senha', this)">👁</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-cadastrar" onclick="fazerCadastro()">
+        <span class="btn-text">Criar conta grátis</span>
+        <div class="spinner"></div>
+      </button>
+
+      <div class="dica">
+        Após criar sua conta, verifique seu email para confirmar o acesso.
+      </div>
+    </div>
+
+    <!-- ===== MODO RECUPERAR SENHA ===== -->
+    <div id="modo-senha" style="display:none;">
+      <div class="heading">
+        <h1>Recuperar senha</h1>
+        <p>Digite seu email e enviaremos um link para redefinir sua senha</p>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <div class="input-wrap">
+          <span class="icon">✉</span>
+          <input type="email" id="recuperar-email" placeholder="seu@email.com" autocomplete="email">
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-recuperar" onclick="recuperarSenha()">
+        <span class="btn-text">Enviar link de recuperação</span>
+        <div class="spinner"></div>
+      </button>
+
+      <div class="link-center">
+        <a onclick="setModo('login')">← Voltar para o login</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Card Pro — Em Breve -->
+  <div class="pro-card">
+    <div class="pro-header">
+      <div class="pro-title">⚡ PrecifyPro Pro</div>
+      <div class="pro-price"><strong>R$ 9,90</strong>/mês</div>
+    </div>
+    <ul class="pro-features">
+      <li>Cadastro de Produtos</li>
+      <li>Campos pré-preenchidos</li>
+      <li>Exportar precificação em PDF</li>
+      <li>Relatório de Margem por Produto</li>
+      <li>Relatório de Margem por Marketplace</li>
+      <li>Suporte por WhatsApp</li>
+    </ul>
+    <div class="btn-em-breve">
+      🕐 Em breve
+    </div>
+  </div>
+
+</div>
+
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPA_URL = 'https://wtcqhbutjxliqsqtjjjv.supabase.co';
+const SUPA_KEY = 'sb_publishable_tw1HNtoMbKo1c8Lu5OUt8A_MQ0-duDf';
+const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+// ============================================================
+// VERIFICAR SE JÁ ESTÁ LOGADO
+// ============================================================
+(async function() {
+  const { data: { session } } = await supa.auth.getSession();
+  if (session) {
+    window.location.href = 'index.html';
+  }
+})();
+
+// ============================================================
+// MODO (login / cadastro / senha)
+// ============================================================
+let modoAtual = 'login';
+
+function setModo(modo) {
+  modoAtual = modo;
+  document.getElementById('modo-login').style.display    = modo === 'login'    ? 'block' : 'none';
+  document.getElementById('modo-cadastro').style.display = modo === 'cadastro' ? 'block' : 'none';
+  document.getElementById('modo-senha').style.display    = modo === 'senha'    ? 'block' : 'none';
+  document.getElementById('toggle-wrap').style.display   = modo === 'senha'    ? 'none'  : 'grid';
+
+  document.getElementById('btn-login').classList.toggle('active', modo === 'login');
+  document.getElementById('btn-cadastro').classList.toggle('active', modo === 'cadastro');
+  limparFeedback();
+}
+
+// ============================================================
+// FEEDBACK
+// ============================================================
+function mostrarFeedback(tipo, msg) {
+  const el = document.getElementById('feedback');
+  el.className = 'feedback ' + tipo;
+  el.querySelector('.fb-icon').textContent = tipo === 'success' ? '✓' : '✕';
+  el.querySelector('.fb-msg').textContent = msg;
+  el.style.display = 'flex';
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function limparFeedback() {
+  const el = document.getElementById('feedback');
+  el.style.display = 'none';
+}
+
+function setLoading(btnId, loading) {
+  const btn = document.getElementById(btnId);
+  btn.disabled = loading;
+  btn.classList.toggle('loading', loading);
+}
+
+// ============================================================
+// LOGIN
+// ============================================================
+async function fazerLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const senha  = document.getElementById('login-senha').value;
+
+  if (!email || !senha) {
+    mostrarFeedback('error', 'Preencha email e senha.');
+    return;
+  }
+
+  setLoading('btn-entrar', true);
+  limparFeedback();
+
+  const { data, error } = await supa.auth.signInWithPassword({ email, password: senha });
+
+  if (error) {
+    const msg = error.message.includes('Invalid login') || error.message.includes('invalid')
+      ? 'Email ou senha incorretos.'
+      : error.message.includes('Email not confirmed')
+      ? 'Confirme seu email antes de entrar. Verifique sua caixa de entrada.'
+      : 'Erro ao entrar. Tente novamente.';
+    mostrarFeedback('error', msg);
+    setLoading('btn-entrar', false);
+    return;
+  }
+
+  // Registra sessão na tabela sessoes
+  try {
+    await supa.from('sessoes').insert({
+      usuario_id: data.user.id,
+      user_agent: navigator.userAgent.slice(0, 200),
+    });
+  } catch(e) {}
+
+  mostrarFeedback('success', 'Login realizado! Redirecionando...');
+  setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+}
+
+// ============================================================
+// CADASTRO
+// ============================================================
+async function fazerCadastro() {
+  const nome  = document.getElementById('cadastro-nome').value.trim();
+  const email = document.getElementById('cadastro-email').value.trim();
+  const senha = document.getElementById('cadastro-senha').value;
+
+  if (!nome || !email || !senha) {
+    mostrarFeedback('error', 'Preencha todos os campos.');
+    return;
+  }
+
+  if (senha.length < 6) {
+    mostrarFeedback('error', 'A senha deve ter pelo menos 6 caracteres.');
+    return;
+  }
+
+  setLoading('btn-cadastrar', true);
+  limparFeedback();
+
+  // Criar usuário no Supabase Auth
+  const { data, error } = await supa.auth.signUp({
+    email,
+    password: senha,
+    options: {
+      data: { nome },
+    }
+  });
+
+  if (error) {
+    const msg = error.message.includes('already registered') || error.message.includes('already been registered')
+      ? 'Este email já está cadastrado. Clique em "Já tenho conta" para entrar.'
+      : 'Erro ao criar conta. Tente novamente.';
+    mostrarFeedback('error', msg);
+    setLoading('btn-cadastrar', false);
+    return;
+  }
+
+  // Inserir na tabela usuarios
+  try {
+    await supa.from('usuarios').insert({
+      id: data.user.id,
+      nome,
+      email,
+      senha_hash: '—', // auth gerenciada pelo Supabase Auth
+      plano: 'free',
+    });
+  } catch(e) {}
+
+  setLoading('btn-cadastrar', false);
+  mostrarFeedback('success', 'Conta criada! Verifique seu email para confirmar o acesso.');
+
+  // Limpa campos
+  document.getElementById('cadastro-nome').value = '';
+  document.getElementById('cadastro-email').value = '';
+  document.getElementById('cadastro-senha').value = '';
+}
+
+// ============================================================
+// RECUPERAR SENHA
+// ============================================================
+async function recuperarSenha() {
+  const email = document.getElementById('recuperar-email').value.trim();
+
+  if (!email) {
+    mostrarFeedback('error', 'Digite seu email.');
+    return;
+  }
+
+  setLoading('btn-recuperar', true);
+  limparFeedback();
+
+  const { error } = await supa.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + '/index.html',
+  });
+
+  setLoading('btn-recuperar', false);
+
+  // Sempre mostra sucesso por segurança (não revela se email existe)
+  mostrarFeedback('success', 'Se esse email estiver cadastrado, você receberá o link em breve. Verifique também o spam.');
+}
+
+// ============================================================
+// TOGGLE SENHA VISÍVEL
+// ============================================================
+function toggleSenha(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁';
+  }
+}
+
+// Enter para submeter
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Enter') return;
+  if (modoAtual === 'login')    fazerLogin();
+  if (modoAtual === 'cadastro') fazerCadastro();
+  if (modoAtual === 'senha')    recuperarSenha();
+});
+</script>
+</body>
+</html>
