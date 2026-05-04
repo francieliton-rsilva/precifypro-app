@@ -5,33 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>PrecifyPro — Entrar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #f0f4ff;
-  --surface: #ffffff;
-  --surface2: #e8eeff;
-  --border: rgba(30,58,138,0.1);
-  --border2: rgba(30,58,138,0.18);
-  --text: #1e3a8a;
-  --muted: #64748b;
-  --accent: #1e3a8a;
-  --accent2: #1d4ed8;
-  --green: #1d4ed8;
-  --green-bg: #eff6ff;
-  --green-border: #bfdbfe;
-  --red: #c0392b;
-  --red-bg: #fdf0ee;
-  --red-border: #f5c4bc;
-  --amber: #7a5000;
-  --amber-bg: #fdf5e4;
-  --amber-border: #f0d090;
+  --bg: #0f1623;
+  --surface: #1a2336;
+  --surface2: #232f45;
+  --border: rgba(248,249,250,0.08);
+  --border2: rgba(248,249,250,0.14);
+  --text: #f8f9fa;
+  --muted: rgba(248,249,250,0.5);
+  --accent: #e8f03d;
+  --accent2: #d4dc2a;
+  --green: #34d399;
+  --green-bg: rgba(52,211,153,0.1);
+  --green-border: rgba(52,211,153,0.25);
+  --red: #f87171;
+  --red-bg: rgba(248,113,113,0.1);
+  --red-border: rgba(248,113,113,0.25);
+  --amber: #fbbf24;
+  --amber-bg: rgba(251,191,36,0.1);
+  --amber-border: rgba(251,191,36,0.25);
 }
 
 body {
-  font-family: 'Sora', sans-serif;
+  font-family: 'Bricolage Grotesque', sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -43,13 +43,26 @@ body {
 }
 
 /* Background grid */
+body::after {
+  content: '';
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(232,240,61,0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(30,58,138,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(30,58,138,0.05) 1px, transparent 1px);
+    linear-gradient(rgba(232,240,61,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,240,61,0.03) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;
@@ -74,7 +87,7 @@ body::before {
 .logo-mark {
   width: 36px;
   height: 36px;
-  background: #1e3a8a;
+  background: #e8f03d;
   border-radius: 9px;
   display: flex;
   align-items: center;
@@ -82,7 +95,7 @@ body::before {
   font-family: 'DM Mono', monospace;
   font-size: 13px;
   font-weight: 500;
-  color: #fff;
+  color: #0f1623;
 }
 
 .logo-name {
@@ -92,7 +105,7 @@ body::before {
   color: var(--text);
 }
 
-.logo-name span { color: var(--accent2); }
+.logo-name span { color: var(--accent); }
 
 /* Card */
 .card {
@@ -101,7 +114,7 @@ body::before {
   border-radius: 14px;
   padding: 28px 28px 24px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 24px rgba(30,58,138,0.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 
 /* Toggle */
@@ -122,7 +135,7 @@ body::before {
   border-radius: 7px;
   background: none;
   color: var(--muted);
-  font-family: 'Sora', sans-serif;
+  font-family: 'Bricolage Grotesque', sans-serif;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -135,8 +148,8 @@ body::before {
 
 .toggle-btn.active {
   background: var(--accent);
-  color: #fff;
-  font-weight: 600;
+  color: #0f1623;
+  font-weight: 700;
 }
 
 /* Heading */
@@ -170,15 +183,15 @@ body::before {
 }
 
 .info-box.blue {
-  background: rgba(96,165,250,0.07);
-  border: 1px solid rgba(96,165,250,0.15);
-  color: #93c5fd;
+  background: rgba(232,240,61,0.06);
+  border: 1px solid rgba(232,240,61,0.15);
+  color: rgba(232,240,61,0.8);
 }
 
 .info-box.amber {
-  background: var(--amber-bg);
-  border: 1px solid rgba(251,191,36,0.2);
-  color: var(--amber);
+  background: rgba(232,240,61,0.06);
+  border: 1px solid rgba(232,240,61,0.15);
+  color: rgba(232,240,61,0.8);
 }
 
 .info-box-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
@@ -218,16 +231,15 @@ body::before {
   border: 1px solid var(--border2);
   border-radius: 8px;
   color: var(--text);
-  font-family: 'Sora', sans-serif;
+  font-family: 'Bricolage Grotesque', sans-serif;
   font-size: 14px;
   padding: 0 12px 0 38px;
   outline: none;
   transition: border-color 0.15s;
-  box-shadow: inset 0 1px 3px rgba(30,58,138,0.05);
 }
 
 .input-wrap input::placeholder { color: var(--muted); opacity: 0.6; }
-.input-wrap input:focus { border-color: var(--accent); }
+.input-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(232,240,61,0.1); }
 .input-wrap input.error { border-color: var(--red); }
 
 .input-wrap .toggle-pwd {
@@ -251,8 +263,8 @@ body::before {
   background: var(--accent);
   border: none;
   border-radius: 10px;
-  color: #fff;
-  font-family: 'Sora', sans-serif;
+  color: #0f1623;
+  font-family: 'Bricolage Grotesque', sans-serif;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
@@ -290,7 +302,7 @@ body::before {
 }
 
 .link-center a {
-  color: #1d4ed8;
+  color: var(--accent);
   text-decoration: none;
   font-weight: 500;
   cursor: pointer;
@@ -300,7 +312,7 @@ body::before {
 
 /* Dica */
 .dica {
-  background: var(--surface2);
+  background: rgba(248,249,250,0.04);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 10px 14px;
@@ -415,7 +427,7 @@ body::before {
   border: 1px solid rgba(30,58,138,0.15);
   border-radius: 8px;
   color: #1d4ed8;
-  font-family: 'Sora', sans-serif;
+  font-family: 'Bricolage Grotesque', sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: not-allowed;
@@ -587,24 +599,6 @@ body::before {
 
   </div>
 
-  <!-- Card Pro — Em Breve -->
-  <div class="pro-card">
-    <div class="pro-header">
-      <div class="pro-title">⚡ PrecifyPro Pro</div>
-      <div class="pro-price"><strong>R$ 9,90</strong>/mês</div>
-    </div>
-    <ul class="pro-features">
-      <li>Cadastro de Produtos</li>
-      <li>Campos pré-preenchidos</li>
-      <li>Exportar precificação em PDF</li>
-      <li>Relatório de Margem por Produto</li>
-      <li>Relatório de Margem por Marketplace</li>
-      <li>Suporte por WhatsApp</li>
-    </ul>
-    <div class="btn-em-breve">
-      🕐 Em breve
-    </div>
-  </div>
 
 </div>
 
@@ -616,14 +610,97 @@ const SUPA_KEY = 'sb_publishable_tw1HNtoMbKo1c8Lu5OUt8A_MQ0-duDf';
 const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 // ============================================================
-// VERIFICAR SE JÁ ESTÁ LOGADO
+// VERIFICAR SE VEIO DE LINK DE RECUPERAÇÃO DE SENHA
 // ============================================================
-(async function() {
+(async function checkRecovery() {
+  const hash = window.location.hash;
+  const params = new URLSearchParams(window.location.search);
+  
+  // Supabase manda #access_token= ou ?type=recovery
+  if (hash.includes('access_token') || params.get('type') === 'recovery') {
+    // Pega a sessão que o Supabase já configurou via URL
+    const { data: { session } } = await supa.auth.getSession();
+    if (session) {
+      // Mostra tela de nova senha
+      mostrarTelaNovaSenha();
+      return;
+    }
+  }
+
+  // Verificar se já está logado
   const { data: { session } } = await supa.auth.getSession();
   if (session) {
     window.location.href = 'index.html';
   }
 })();
+
+function mostrarTelaNovaSenha() {
+  // Esconde tudo e mostra formulário de nova senha
+  document.getElementById('toggle-wrap').style.display = 'none';
+  document.getElementById('modo-login').style.display = 'none';
+  document.getElementById('modo-cadastro').style.display = 'none';
+  document.getElementById('modo-senha').style.display = 'none';
+
+  // Cria tela de nova senha dinamicamente
+  const card = document.querySelector('.card');
+  card.innerHTML = `
+    <div style="text-align:center;margin-bottom:20px;">
+      <h1 style="font-size:22px;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px;">Criar nova senha</h1>
+      <p style="font-size:13px;color:var(--muted);">Digite sua nova senha abaixo</p>
+    </div>
+    <div class="form-group">
+      <label>Nova senha</label>
+      <div class="input-wrap">
+        <span class="icon">🔒</span>
+        <input type="password" id="nova-senha" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+        <button class="toggle-pwd" onclick="toggleSenha('nova-senha', this)">👁</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Confirmar nova senha</label>
+      <div class="input-wrap">
+        <span class="icon">🔒</span>
+        <input type="password" id="confirmar-senha" placeholder="Repita a senha" autocomplete="new-password">
+        <button class="toggle-pwd" onclick="toggleSenha('confirmar-senha', this)">👁</button>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="salvarNovaSenha()">
+      <span class="btn-text">Salvar nova senha</span>
+      <div class="spinner"></div>
+    </button>
+  `;
+}
+
+async function salvarNovaSenha() {
+  const nova = document.getElementById('nova-senha').value;
+  const confirmar = document.getElementById('confirmar-senha').value;
+
+  if (!nova || nova.length < 6) {
+    mostrarFeedback('error', 'A senha deve ter pelo menos 6 caracteres.');
+    return;
+  }
+  if (nova !== confirmar) {
+    mostrarFeedback('error', 'As senhas não coincidem.');
+    return;
+  }
+
+  const btn = document.querySelector('.btn-primary');
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  const { error } = await supa.auth.updateUser({ password: nova });
+
+  btn.disabled = false;
+  btn.classList.remove('loading');
+
+  if (error) {
+    mostrarFeedback('error', 'Erro ao salvar senha. Tente solicitar um novo link.');
+    return;
+  }
+
+  mostrarFeedback('success', 'Senha atualizada! Redirecionando...');
+  setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+}
 
 // ============================================================
 // MODO (login / cadastro / senha)
