@@ -143,6 +143,39 @@
   --green-bg: rgba(52,211,153,0.08);
   --green-border: rgba(52,211,153,0.2);
   --red: #f87171;
+
+/* ---- TEMA NAVY (identidade PrecifyPro) ---- */
+[data-theme="navy"] {
+  --bg: #0f1623;
+  --surface: #1a2336;
+  --surface2: #232f45;
+  --border: rgba(248,249,250,0.08);
+  --border2: rgba(248,249,250,0.14);
+  --text: #f8f9fa;
+  --muted: rgba(248,249,250,0.45);
+  --accent: #e8f03d;
+  --accent2: #d4dc2a;
+  --accent-bg: rgba(232,240,61,0.08);
+  --header-bg: #0a0f1a;
+  --header-text: #f8f9fa;
+  --btn-bg: #e8f03d;
+  --btn-text: #0f1623;
+  --tab-active-bg: #e8f03d;
+  --tab-active-text: #0f1623;
+  --input-bg: #232f45;
+  --green: #34d399;
+  --green-bg: rgba(52,211,153,0.08);
+  --green-border: rgba(52,211,153,0.2);
+  --red: #f87171;
+  --red-bg: rgba(248,113,113,0.1);
+  --red-border: rgba(248,113,113,0.2);
+  --amber: #e8f03d;
+  --amber-bg: rgba(232,240,61,0.08);
+  --amber-border: rgba(232,240,61,0.2);
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --radius: 10px;
+  --radius-sm: 7px;
+}
   --red-bg: rgba(248,113,113,0.07);
   --red-border: rgba(248,113,113,0.2);
   --amber: #fbbf24;
@@ -264,6 +297,11 @@ header {
 [data-theme="light"] .version-badge,
 [data-theme="blue"] .version-badge { color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.15); }
 [data-theme="green"] .version-badge { color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.06); border-color: rgba(52,211,153,0.15); }
+[data-theme="navy"] .logo-mark { background: #e8f03d !important; color: #0f1623 !important; }
+[data-theme="navy"] .version-badge { color: rgba(232,240,61,0.5); background: rgba(232,240,61,0.06); border-color: rgba(232,240,61,0.15); }
+[data-theme="navy"] .logo-name span { color: #e8f03d; }
+[data-theme="navy"] .version-badge { color: rgba(232,240,61,0.5); background: rgba(232,240,61,0.06); border-color: rgba(232,240,61,0.15); }
+[data-theme="navy"] .logo-name span { color: #e8f03d; }
 
 .header-right {
   font-family: 'DM Mono', monospace;
@@ -1036,7 +1074,7 @@ select {
   <div class="logo">
     <div class="logo-mark">P$</div>
     <div class="logo-name">Precify<span>Pro</span></div>
-    <div class="version-badge">v1.30</div>
+    <div class="version-badge">v1.31</div>
   </div>
   <div class="user-menu">
     <button class="user-btn" onclick="toggleUserMenu()" id="user-btn">
@@ -1790,6 +1828,19 @@ select {
         <label>Tema do Sistema</label>
       </div>
       <div class="theme-grid">
+        <div class="theme-option tp-navy" id="theme-navy" onclick="setTema('navy')" style="background:#0f1623;border:1px solid rgba(232,240,61,0.2);">
+          <div class="theme-preview" style="background:#0f1623;">
+            <div style="background:#0a0f1a;height:14px;display:flex;align-items:center;padding:0 6px;gap:4px;">
+              <div style="width:8px;height:8px;background:#e8f03d;border-radius:2px;"></div>
+            </div>
+            <div style="padding:6px;display:flex;flex-direction:column;gap:4px;">
+              <div style="height:6px;background:#1a2336;border-radius:3px;border:1px solid rgba(248,249,250,0.08);"></div>
+              <div style="height:20px;background:#1a2336;border-radius:3px;border:1px solid rgba(248,249,250,0.08);"></div>
+              <div style="height:12px;background:#e8f03d;border-radius:3px;"></div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:rgba(232,240,61,0.7);background:#0a0f1a;padding:4px 10px 6px;text-align:center;">Navy</div>
+        </div>
         <div class="theme-option tp-dark" id="theme-dark" onclick="setTema('dark')">
           <div class="theme-preview-header" style="height:20px;"></div>
           <div class="theme-preview-card" style="height:18px;margin-top:6px;"></div>
@@ -3013,7 +3064,7 @@ function setTema(tema) {
 
 // Inicializa tema salvo
 (function() {
-  const saved = localStorage.getItem('precifypro-tema') || 'blue';
+  const saved = localStorage.getItem('precifypro-tema') || 'navy';
   document.documentElement.setAttribute('data-theme', saved);
   // marca o seletor após DOM carregar
   document.addEventListener('DOMContentLoaded', () => {
