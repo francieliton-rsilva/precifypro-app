@@ -1080,7 +1080,7 @@ select {
   <div class="logo">
     <div class="logo-mark">P$</div>
     <div class="logo-name">Precify<span>Pro</span></div>
-    <div class="version-badge">v1.34</div>
+    <div class="version-badge">v1.35</div>
   </div>
   <div class="user-menu">
     <button class="user-btn" onclick="toggleUserMenu()" id="user-btn">
@@ -1851,15 +1851,15 @@ select {
       </div>
       <input type="file" id="foto-input" accept="image/*" style="display:none;" onchange="onFotoSelecionada(this)">
       <div class="grid2" style="margin-bottom:12px;">
-        <div class="field"><label>Código SKU</label><div class="input-wrap"><input type="text" id="prod-sku" placeholder="Ex: CJ-001"></div></div>
+        <div class="field"><label>Código SKU <span class="req">*</span></label><div class="input-wrap"><input type="text" id="prod-sku" placeholder="Ex: CJ-001"></div></div>
         <div class="field"><label>Nome do Produto <span class="req">*</span></label><div class="input-wrap"><input type="text" id="prod-nome" placeholder="Nome do produto"></div></div>
       </div>
       <div class="grid2" style="margin-bottom:12px;">
         <div class="field"><label>Custo <span class="badge badge-gray">Opcional</span></label><div class="input-wrap"><span class="pre">R$</span><input type="text" inputmode="numeric" id="prod-custo" placeholder="0,00" class="has-pre"></div></div>
-        <div class="field"><label>Peso (g) <span class="req">*</span></label><div class="input-wrap"><input type="number" id="prod-peso" placeholder="0" min="1" step="any" class="has-suf"><span class="suf">g</span></div></div>
+        <div class="field"><label>Peso (g)</label><div class="input-wrap"><input type="number" id="prod-peso" placeholder="0" min="1" step="any" class="has-suf"><span class="suf">g</span></div></div>
       </div>
       <div class="grid2" style="margin-bottom:12px;">
-        <div class="field"><label>Preço Cheio <span class="req">*</span></label><div class="input-wrap"><span class="pre">R$</span><input type="text" inputmode="numeric" id="prod-preco-cheio" placeholder="0,00" class="has-pre"></div></div>
+        <div class="field"><label>Preço Cheio</label><div class="input-wrap"><span class="pre">R$</span><input type="text" inputmode="numeric" id="prod-preco-cheio" placeholder="0,00" class="has-pre"></div></div>
         <div class="field"><label>Preço Promocional <span class="badge badge-gray">Opcional</span></label><div class="input-wrap"><span class="pre">R$</span><input type="text" inputmode="numeric" id="prod-preco-promo" placeholder="—" class="has-pre"></div></div>
       </div>
       <div class="field" style="margin-bottom:0;">
@@ -2213,11 +2213,18 @@ function renderProdutos() {
     const promo = p.preco_promocional
       ? `<span style="font-family:'DM Mono',monospace;font-size:12px;">R$ ${fmt(p.preco_promocional)}</span>`
       : `<span style="color:var(--muted);font-size:12px;">—</span>`;
+
+    // Indicador de produto incompleto
+    const incompleto = !p.custo || !p.preco_cheio || !p.peso;
+    const nomeHTML = incompleto
+      ? `<span style="font-size:13px;font-weight:500;color:var(--text);">${p.nome}</span> <span title="Produto com campos opcionais não preenchidos" style="font-size:11px;color:var(--amber);cursor:help;">⚠</span>`
+      : `<span style="font-size:13px;font-weight:500;color:var(--text);">${p.nome}</span>`;
+
     return `<tr>
       <td>${fotoHTML}</td>
       <td style="font-family:'DM Mono',monospace;font-size:12px;">${p.codigo_sku || '—'}</td>
-      <td style="font-size:13px;font-weight:500;color:var(--text);">${p.nome}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12px;">R$ ${fmt(p.preco_cheio || 0)}</td>
+      <td>${nomeHTML}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;">${p.preco_cheio ? 'R$ '+fmt(p.preco_cheio) : '<span style="color:var(--muted);">—</span>'}</td>
       <td>${promo}</td>
       <td><div class="prod-acoes">
         <button class="btn-sm-outline" onclick="calcularComProduto('${p.id}')">Calcular</button>
@@ -2234,6 +2241,17 @@ function renderProdutos() {
 function calcularComProduto(id) {
   const p = _produtos.find(x => x.id === id);
   if (!p) return;
+
+  // Aviso gentil se produto incompleto
+  const incompleto = !p.custo || !p.preco_cheio || !p.peso;
+  if (incompleto) {
+    const campos = [];
+    if (!p.custo)      campos.push('Custo');
+    if (!p.preco_cheio) campos.push('Preço Cheio');
+    if (!p.peso)       campos.push('Peso');
+    const msg = `Este produto ainda não tem ${campos.join(' e ')} cadastrado${campos.length > 1 ? 's' : ''}.\n\nVocê pode preencher os campos manualmente nas abas de cálculo ou editar o produto para completar.`;
+    if (!confirm(msg + '\n\nContinuar mesmo assim?')) return;
+  }
 
   // Preço base: usa promo se existir, senão cheio
   const preco = p.preco_promocional || p.preco_cheio || 0;
@@ -2346,13 +2364,14 @@ function editarProduto(id) {
 }
 
 async function salvarProduto() {
+  const sku  = document.getElementById('prod-sku').value.trim();
   const nome = document.getElementById('prod-nome').value.trim();
-  if (!nome) { alert('Preencha o nome do produto.'); return; }
+  if (!sku)  { alert('Preencha o Código SKU.'); return; }
+  if (!nome) { alert('Preencha o Nome do produto.'); return; }
 
-  const custo   = parseMoeda(document.getElementById('prod-custo')) || null;
-  const peso    = parseFloat(document.getElementById('prod-peso').value) || 0;
-  const pCheio  = parseMoeda(document.getElementById('prod-preco-cheio')) || null;
-  if (peso <= 0) { alert('Preencha o Peso do produto.'); return; }
+  const custo  = parseMoeda(document.getElementById('prod-custo')) || null;
+  const peso   = parseFloat(document.getElementById('prod-peso').value) || null;
+  const pCheio = parseMoeda(document.getElementById('prod-preco-cheio')) || null;
 
   const { data: { session } } = await supa.auth.getSession();
   if (!session) return;
