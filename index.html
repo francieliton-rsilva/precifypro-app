@@ -1080,7 +1080,7 @@ select {
   <div class="logo">
     <div class="logo-mark">P$</div>
     <div class="logo-name">Precify<span>Pro</span></div>
-    <div class="version-badge">v1.32</div>
+    <div class="version-badge">v1.33</div>
   </div>
   <div class="user-menu">
     <button class="user-btn" onclick="toggleUserMenu()" id="user-btn">
@@ -1534,7 +1534,7 @@ select {
             <thead>
               <tr>
                 <th>Data</th><th>Marketplace</th><th>Preço</th>
-                <th>Margem</th><th>Vendas 7 dias</th><th>Variação</th><th>Observação</th>
+                <th>Margem</th><th>Vendas 7 dias</th><th>Variação</th><th>Observação</th><th></th>
               </tr>
             </thead>
             <tbody id="desemp-tbody">
@@ -1610,6 +1610,33 @@ select {
               <div class="input-wrap"><input type="number" id="pc-rendimento-kg" placeholder="Ex: 3,30" step="any" min="0" oninput="calcularCustoTecido()"></div>
             </div>
           </div>
+
+          <!-- Calculadora de Rendimento da Malha -->
+          <details style="margin-bottom:12px;">
+            <summary style="font-size:11px;font-weight:600;color:var(--accent);cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:6px;">
+              <span>▶</span> Calculadora de Rendimento — não sei o m/kg
+            </summary>
+            <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:14px;margin-top:8px;">
+              <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5;">
+                Se o fornecedor informou a <strong style="color:var(--text);">gramatura</strong> e a <strong style="color:var(--text);">largura</strong> do tecido, calcule o rendimento abaixo:
+              </div>
+              <div class="grid2" style="margin-bottom:8px;">
+                <div class="field">
+                  <label>Largura do Tecido (m)</label>
+                  <div class="input-wrap"><input type="number" id="calc-largura" placeholder="Ex: 1,60" step="any" min="0" oninput="calcularRendimentoMalha()"></div>
+                </div>
+                <div class="field">
+                  <label>Gramatura (g/m²)</label>
+                  <div class="input-wrap"><input type="number" id="calc-gramatura" placeholder="Ex: 200" step="any" min="0" oninput="calcularRendimentoMalha()"></div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="flex:1;font-size:12px;color:var(--muted);">Rendimento calculado:</div>
+                <div class="pc-resultado" id="calc-rendimento-result" style="flex:1;">—</div>
+                <button onclick="usarRendimentoCalculado()" style="height:32px;padding:0 12px;font-size:11px;font-weight:600;font-family:'Sora',sans-serif;background:var(--btn-bg);color:var(--btn-text);border:none;border-radius:var(--radius-sm);cursor:pointer;">Usar este valor</button>
+              </div>
+            </div>
+          </details>
         </div>
 
         <!-- Plano -->
@@ -1623,7 +1650,7 @@ select {
         <div class="grid2" style="margin-bottom:14px;">
           <div class="field">
             <label>Consumo por Peça (m)</label>
-            <div class="input-wrap"><input type="number" id="pc-consumo-tecido" placeholder="0,00" step="any" min="0" oninput="calcularCustoTecido()"></div>
+            <div class="input-wrap"><input type="number" id="pc-consumo-tecido" placeholder="Calculado automaticamente" step="any" min="0" readonly style="background:var(--surface2);color:var(--muted);cursor:not-allowed;"></div>
           </div>
           <div class="field">
             <label>Custo Tecido/Peça (calculado)</label>
@@ -1636,6 +1663,57 @@ select {
         <div id="pc-itens-wrap" style="margin-bottom:8px;"></div>
         <button onclick="adicionarLinhaItem()" class="pc-add-btn">+ Adicionar item de custo</button>
 
+        <!-- Calculadora de Elástico -->
+        <details style="margin-bottom:12px;">
+          <summary style="font-size:11px;font-weight:600;color:var(--accent);cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:6px;">
+            <span>▶</span> Calculadora de Elástico por Peça
+          </summary>
+          <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:14px;margin-top:8px;">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5;">
+              Calcule o custo do elástico por peça com base no consumo e preço do rolo.
+            </div>
+            <div class="grid2" style="margin-bottom:8px;">
+              <div class="field">
+                <label>Consumo por peça (m)</label>
+                <div class="input-wrap"><input type="number" id="elast-consumo" placeholder="Ex: 1,20" step="any" min="0" oninput="calcularElastico()"></div>
+              </div>
+              <div class="field">
+                <label>Metros por rolo</label>
+                <div class="input-wrap"><input type="number" id="elast-metros-rolo" placeholder="Ex: 100" step="any" min="0" oninput="calcularElastico()"></div>
+              </div>
+            </div>
+            <div class="grid2" style="margin-bottom:8px;">
+              <div class="field">
+                <label>Valor por rolo (R$)</label>
+                <div class="input-wrap"><span class="pre">R$</span><input type="text" inputmode="numeric" id="elast-valor-rolo" placeholder="0,00" class="has-pre" oninput="calcularElastico()"></div>
+              </div>
+              <div class="field">
+                <label>Qtd de peças da produção</label>
+                <div class="input-wrap"><input type="number" id="elast-qtd-pecas" placeholder="Ex: 500" step="1" min="0" oninput="calcularElastico()"></div>
+              </div>
+            </div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px;margin-bottom:8px;" id="elast-resultado-wrap" style="display:none;">
+              <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border);">
+                <span style="color:var(--muted);">Total de metros necessários</span>
+                <span id="elast-total-metros" style="font-family:'DM Mono',monospace;">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border);">
+                <span style="color:var(--muted);">Rolos necessários</span>
+                <span id="elast-rolos" style="font-family:'DM Mono',monospace;">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border);">
+                <span style="color:var(--muted);">Custo total do elástico</span>
+                <span id="elast-custo-total" style="font-family:'DM Mono',monospace;">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                <span style="font-weight:700;color:var(--text);">Custo por peça</span>
+                <span id="elast-custo-peca" class="pc-resultado" style="height:auto;padding:2px 8px;font-size:13px;">—</span>
+              </div>
+            </div>
+            <button onclick="usarCustoElastico()" style="height:32px;padding:0 14px;font-size:11px;font-weight:600;font-family:'Sora',sans-serif;background:var(--btn-bg);color:var(--btn-text);border:none;border-radius:var(--radius-sm);cursor:pointer;">Adicionar como item de custo</button>
+          </div>
+        </details>
+
         <div class="pc-total-bar">
           <span>Pré-Custo Total por Peça</span>
           <span id="pc-total-result" class="pc-total-valor">R$ 0,00</span>
@@ -1643,6 +1721,9 @@ select {
 
         <!-- CUSTO REAL -->
         <div class="pc-etapa-title" style="margin-top:16px;">Custo Real <span style="font-size:11px;font-weight:400;color:var(--muted);">— preencher após a produção</span></div>
+        <div style="background:var(--accent-bg);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--muted);line-height:1.5;">
+          💡 <strong style="color:var(--text);">Atenção:</strong> preencha apenas após receber o produto. O custo real substitui a estimativa e atualiza o custo do produto automaticamente ao clicar em "Usar Custo Real".
+        </div>
         <div class="grid2" style="margin-bottom:10px;">
           <div class="field">
             <label>Valor Total Pago no Tecido (R$)</label>
@@ -2139,6 +2220,7 @@ function renderProdutos() {
         <button class="btn-sm-outline" onclick="abrirPreCusto('${p.id}')">Pré-Custo</button>
         <button class="btn-sm-outline" onclick="abrirDesempenho('${p.id}')">Desempenho</button>
         <button class="btn-sm-outline" onclick="editarProduto('${p.id}')">Editar</button>
+        <button class="btn-sm-outline" style="color:var(--red);border-color:var(--red-border);" onclick="deletarProduto('${p.id}','${p.nome}')">Excluir</button>
       </div></td>
     </tr>`;
   }).join('');
@@ -2263,12 +2345,10 @@ async function salvarProduto() {
   const nome = document.getElementById('prod-nome').value.trim();
   if (!nome) { alert('Preencha o nome do produto.'); return; }
 
-  const custo   = parseMoeda(document.getElementById('prod-custo'));
+  const custo   = parseMoeda(document.getElementById('prod-custo')) || null;
   const peso    = parseFloat(document.getElementById('prod-peso').value) || 0;
-  const pCheio  = parseMoeda(document.getElementById('prod-preco-cheio'));
-  if (custo <= 0 || peso <= 0 || pCheio <= 0) {
-    alert('Preencha Custo, Peso e Preço Cheio.'); return;
-  }
+  const pCheio  = parseMoeda(document.getElementById('prod-preco-cheio')) || null;
+  if (peso <= 0) { alert('Preencha o Peso do produto.'); return; }
 
   const { data: { session } } = await supa.auth.getSession();
   if (!session) return;
@@ -2396,7 +2476,7 @@ function renderHistorico() {
   const tbody = document.getElementById('desemp-tbody');
 
   if (lista.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">
       Nenhum registro ainda. Clique em "+ Registrar" para começar.</td></tr>`;
     return;
   }
@@ -2434,6 +2514,7 @@ function renderHistorico() {
       <td style="font-family:'DM Mono',monospace;font-size:12px;">${h.vendas_7_dias}</td>
       <td>${varHTML}</td>
       <td style="font-size:11px;color:var(--muted);">${h.observacao || '—'}</td>
+      <td><button onclick="deletarDesempenho('${h.id}')" style="height:24px;padding:0 8px;font-size:10px;font-weight:600;color:var(--red);border:1px solid var(--red-border);background:var(--red-bg);border-radius:var(--radius-sm);cursor:pointer;font-family:'Sora',sans-serif;">Excluir</button></td>
     </tr>`;
   }).join('');
 }
@@ -2478,7 +2559,7 @@ async function salvarRegistroDesemp() {
 // Aplicar máscaras nos campos do modal de produto
 document.addEventListener('DOMContentLoaded', () => {
   ['prod-custo','prod-preco-cheio','prod-preco-promo','prod-embalagem','desemp-preco',
-   'pc-valor-metro','pc-valor-kg','pc-valor-total-tecido'].forEach(id => {
+   'pc-valor-metro','pc-valor-kg','pc-valor-total-tecido','elast-valor-rolo'].forEach(id => {
     const el = document.getElementById(id);
     if (el) aplicarMascaraMonetaria(el);
   });
@@ -2683,7 +2764,91 @@ async function carregarHistoricoFabricacao() {
   } catch(e) { console.error('historico erro:', e); }
 }
 
-// ---- EDITAR / DUPLICAR / EXCLUIR PRÉ-CUSTO ----
+// ---- DELETAR PRODUTO ----
+async function deletarProduto(id, nome) {
+  if (!confirm(`Tem certeza que deseja excluir o produto "${nome}"?\nIsso apagará também o histórico de pré-custo e desempenho.`)) return;
+  const { error } = await supa.from('produtos').delete().eq('id', id);
+  if (error) { alert('Erro ao excluir: ' + error.message); return; }
+  await carregarProdutos();
+}
+
+// ---- DELETAR DESEMPENHO ----
+async function deletarDesempenho(id) {
+  if (!confirm('Tem certeza que deseja excluir este registro de desempenho?')) return;
+  const { error } = await supa.from('historico_precos').delete().eq('id', id);
+  if (error) { alert('Erro ao excluir: ' + error.message); return; }
+  await carregarHistorico();
+}
+
+// ---- CALCULADORA RENDIMENTO MALHA ----
+function calcularRendimentoMalha() {
+  const largura = parseFloat(document.getElementById('calc-largura').value) || 0;
+  const gramatura = parseFloat(document.getElementById('calc-gramatura').value) || 0;
+  const el = document.getElementById('calc-rendimento-result');
+  if (!largura || !gramatura) { el.textContent = '—'; return; }
+  // Rendimento (m/kg) = 1000 / (largura × gramatura)
+  const rendimento = 1000 / (largura * gramatura);
+  el.textContent = rendimento.toFixed(2) + ' m/kg';
+}
+
+function usarRendimentoCalculado() {
+  const el = document.getElementById('calc-rendimento-result');
+  const val = parseFloat(el.textContent);
+  if (isNaN(val)) { alert('Calcule o rendimento primeiro.'); return; }
+  document.getElementById('pc-rendimento-kg').value = val.toFixed(2);
+  calcularCustoTecido();
+}
+
+// ---- CALCULADORA ELÁSTICO ----
+function calcularElastico() {
+  const consumo   = parseFloat(document.getElementById('elast-consumo').value) || 0;
+  const metrosRolo = parseFloat(document.getElementById('elast-metros-rolo').value) || 0;
+  const valorRolo = (() => {
+    const el = document.getElementById('elast-valor-rolo');
+    const raw = el.dataset.rawValue;
+    return raw ? parseFloat(raw) : parseFloat(el.value.replace(/\./g,'').replace(',','.')) || 0;
+  })();
+  const qtdPecas  = parseFloat(document.getElementById('elast-qtd-pecas').value) || 0;
+
+  const wrap = document.getElementById('elast-resultado-wrap');
+
+  if (!consumo || !metrosRolo || !valorRolo || !qtdPecas) {
+    document.getElementById('elast-total-metros').textContent = '—';
+    document.getElementById('elast-rolos').textContent = '—';
+    document.getElementById('elast-custo-total').textContent = '—';
+    document.getElementById('elast-custo-peca').textContent = '—';
+    return;
+  }
+
+  const totalMetros  = consumo * qtdPecas;
+  const rolos        = Math.ceil(totalMetros / metrosRolo);
+  const custoTotal   = rolos * valorRolo;
+  const custoPeca    = custoTotal / qtdPecas;
+
+  document.getElementById('elast-total-metros').textContent = totalMetros.toFixed(2) + ' m';
+  document.getElementById('elast-rolos').textContent = rolos + ' rolo' + (rolos > 1 ? 's' : '');
+  document.getElementById('elast-custo-total').textContent = 'R$ ' + fmt(custoTotal);
+  document.getElementById('elast-custo-peca').textContent = 'R$ ' + fmt(custoPeca);
+}
+
+function usarCustoElastico() {
+  const el = document.getElementById('elast-custo-peca');
+  const val = parseFloat(el.textContent.replace('R$ ','').replace('.','').replace(',','.'));
+  if (isNaN(val) || val <= 0) { alert('Calcule o custo do elástico primeiro.'); return; }
+  // Adiciona uma linha de item com o valor do elástico
+  adicionarLinhaItem();
+  const ultima = _itensLinha[_itensLinha.length - 1];
+  // Preenche o valor estimado da última linha
+  setTimeout(() => {
+    const evEl = document.getElementById('pc-item-val-' + ultima.id);
+    if (evEl) {
+      setMoeda('pc-item-val-' + ultima.id, val);
+      ultima.valorEst = evEl.value;
+      ultima.rawEst = val.toFixed(2);
+    }
+    calcularTotal();
+  }, 50);
+}
 
 // Preenche o formulário com dados de um pré-custo existente
 async function _preencherFormComPC(pc) {
@@ -2780,8 +2945,19 @@ async function duplicarPreCusto(id) {
   document.getElementById('pc-form-wrap').dataset.editandoId = '';
   document.getElementById('pc-form-wrap').dataset.modoEdicao = 'false';
 
+  // Duplica sem custo real — zera esses campos
+  const pcSemCustoReal = {
+    ...pc,
+    valor_total_tecido: null,
+    pecas_recebidas: null,
+    pecas_defeito: null,
+    pecas_aproveitaveis: null,
+    custo_real_tecido_peca: null,
+    custo_real_total_peca: null,
+  };
+
   iniciarNovoPreCusto();
-  await _preencherFormComPC(pc);
+  await _preencherFormComPC(pcSemCustoReal);
 
   // Restaurar texto padrão dos botões
   const btnSalvar = document.querySelector('[onclick="salvarPreCusto(false)"]');
