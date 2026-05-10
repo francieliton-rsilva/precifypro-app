@@ -1080,7 +1080,7 @@ select {
   <div class="logo">
     <div class="logo-mark">P$</div>
     <div class="logo-name">Precify<span>Pro</span></div>
-    <div class="version-badge">v1.33</div>
+    <div class="version-badge">v1.34</div>
   </div>
   <div class="user-menu">
     <button class="user-btn" onclick="toggleUserMenu()" id="user-btn">
@@ -1692,22 +1692,26 @@ select {
                 <div class="input-wrap"><input type="number" id="elast-qtd-pecas" placeholder="Ex: 500" step="1" min="0" oninput="calcularElastico()"></div>
               </div>
             </div>
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px;margin-bottom:8px;" id="elast-resultado-wrap" style="display:none;">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px;margin-bottom:8px;" id="elast-resultado-wrap">
               <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border);">
+                <span style="color:var(--muted);">Custo por metro do elástico</span>
+                <span id="elast-custo-metro" style="font-family:'DM Mono',monospace;">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);">
+                <span style="font-weight:700;color:var(--text);">Custo por peça</span>
+                <span id="elast-custo-peca" class="pc-resultado" style="height:auto;padding:2px 8px;font-size:13px;">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border);margin-top:6px;">
                 <span style="color:var(--muted);">Total de metros necessários</span>
                 <span id="elast-total-metros" style="font-family:'DM Mono',monospace;">—</span>
               </div>
               <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border);">
-                <span style="color:var(--muted);">Rolos necessários</span>
+                <span style="color:var(--muted);">Rolos a comprar</span>
                 <span id="elast-rolos" style="font-family:'DM Mono',monospace;">—</span>
               </div>
-              <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border);">
+              <div style="display:flex;justify-content:space-between;padding:3px 0;">
                 <span style="color:var(--muted);">Custo total do elástico</span>
                 <span id="elast-custo-total" style="font-family:'DM Mono',monospace;">—</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;padding:4px 0;">
-                <span style="font-weight:700;color:var(--text);">Custo por peça</span>
-                <span id="elast-custo-peca" class="pc-resultado" style="height:auto;padding:2px 8px;font-size:13px;">—</span>
               </div>
             </div>
             <button onclick="usarCustoElastico()" style="height:32px;padding:0 14px;font-size:11px;font-weight:600;font-family:'Sora',sans-serif;background:var(--btn-bg);color:var(--btn-text);border:none;border-radius:var(--radius-sm);cursor:pointer;">Adicionar como item de custo</button>
@@ -1851,7 +1855,7 @@ select {
         <div class="field"><label>Nome do Produto <span class="req">*</span></label><div class="input-wrap"><input type="text" id="prod-nome" placeholder="Nome do produto"></div></div>
       </div>
       <div class="grid2" style="margin-bottom:12px;">
-        <div class="field"><label>Custo <span class="req">*</span></label><div class="input-wrap"><span class="pre">R$</span><input type="text" inputmode="numeric" id="prod-custo" placeholder="0,00" class="has-pre"></div></div>
+        <div class="field"><label>Custo <span class="badge badge-gray">Opcional</span></label><div class="input-wrap"><span class="pre">R$</span><input type="text" inputmode="numeric" id="prod-custo" placeholder="0,00" class="has-pre"></div></div>
         <div class="field"><label>Peso (g) <span class="req">*</span></label><div class="input-wrap"><input type="number" id="prod-peso" placeholder="0" min="1" step="any" class="has-suf"><span class="suf">g</span></div></div>
       </div>
       <div class="grid2" style="margin-bottom:12px;">
@@ -2801,34 +2805,43 @@ function usarRendimentoCalculado() {
 
 // ---- CALCULADORA ELÁSTICO ----
 function calcularElastico() {
-  const consumo   = parseFloat(document.getElementById('elast-consumo').value) || 0;
+  const consumo    = parseFloat(document.getElementById('elast-consumo').value) || 0;
   const metrosRolo = parseFloat(document.getElementById('elast-metros-rolo').value) || 0;
-  const valorRolo = (() => {
+  const valorRolo  = (() => {
     const el = document.getElementById('elast-valor-rolo');
     const raw = el.dataset.rawValue;
     return raw ? parseFloat(raw) : parseFloat(el.value.replace(/\./g,'').replace(',','.')) || 0;
   })();
-  const qtdPecas  = parseFloat(document.getElementById('elast-qtd-pecas').value) || 0;
+  const qtdPecas   = parseFloat(document.getElementById('elast-qtd-pecas').value) || 0;
 
-  const wrap = document.getElementById('elast-resultado-wrap');
+  const setR = (id, v) => { document.getElementById(id).textContent = v; };
 
+  // Custo por metro e por peça — independe da produção
+  if (!metrosRolo || !valorRolo) {
+    setR('elast-custo-metro', '—');
+    setR('elast-custo-peca', '—');
+  } else {
+    const custoMetro = valorRolo / metrosRolo;
+    setR('elast-custo-metro', 'R$ ' + fmt(custoMetro));
+    const custoPeca = consumo > 0 ? custoMetro * consumo : 0;
+    setR('elast-custo-peca', custoPeca > 0 ? 'R$ ' + fmt(custoPeca) : '—');
+  }
+
+  // Planejamento de compra — depende da produção
   if (!consumo || !metrosRolo || !valorRolo || !qtdPecas) {
-    document.getElementById('elast-total-metros').textContent = '—';
-    document.getElementById('elast-rolos').textContent = '—';
-    document.getElementById('elast-custo-total').textContent = '—';
-    document.getElementById('elast-custo-peca').textContent = '—';
+    setR('elast-total-metros', '—');
+    setR('elast-rolos', '—');
+    setR('elast-custo-total', '—');
     return;
   }
 
-  const totalMetros  = consumo * qtdPecas;
-  const rolos        = Math.ceil(totalMetros / metrosRolo);
-  const custoTotal   = rolos * valorRolo;
-  const custoPeca    = custoTotal / qtdPecas;
+  const totalMetros = consumo * qtdPecas;
+  const rolos       = Math.ceil(totalMetros / metrosRolo);
+  const custoTotal  = rolos * valorRolo;
 
-  document.getElementById('elast-total-metros').textContent = totalMetros.toFixed(2) + ' m';
-  document.getElementById('elast-rolos').textContent = rolos + ' rolo' + (rolos > 1 ? 's' : '');
-  document.getElementById('elast-custo-total').textContent = 'R$ ' + fmt(custoTotal);
-  document.getElementById('elast-custo-peca').textContent = 'R$ ' + fmt(custoPeca);
+  setR('elast-total-metros', totalMetros.toFixed(2) + ' m');
+  setR('elast-rolos', rolos + ' rolo' + (rolos > 1 ? 's' : ''));
+  setR('elast-custo-total', 'R$ ' + fmt(custoTotal));
 }
 
 function usarCustoElastico() {
